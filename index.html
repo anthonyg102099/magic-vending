@@ -29,8 +29,8 @@
         const TICK_MS = 1000; // 1 real second = 1 in-game hour
         
         // GitHub Gist configuration for leaderboard (free database)
-        const GIST_ID = "b348067ef1c6ea6cd2430801cd8685b0"; // Replace with your Gist ID
-        const GITHUB_TOKEN = "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"; // Replace with your token
+        const GIST_ID = "PASTE_YOUR_GIST_ID_HERE"; // Replace with your Gist ID
+        const GITHUB_TOKEN = "PASTE_YOUR_TOKEN_HERE"; // Replace with your token
         
         // Dynamic cooldown system based on player progress
         function calculateCooldown(balance, inventory, hourlyIncome) {
@@ -148,19 +148,78 @@
             }
         }
 
+        // Expanded item database with much more variety
         const BASE_ITEMS = [
+            // Starting tier ($500-$5k)
             { key: "lemonade_stand", name: "Lemonade Stand", category: "low_passive", price: 500, hourly: 2 },
-            { key: "rental_house", name: "Rental House", category: "passive_property", price: 50000, hourly: 500 },
+            { key: "lawn_mower", name: "Lawn Mowing Service", category: "low_passive", price: 800, hourly: 3 },
+            { key: "food_truck", name: "Food Truck", category: "business", price: 15000, hourly: 25 },
+            { key: "etsy_shop", name: "Etsy Craft Shop", category: "business", price: 2000, hourly: 8 },
+            
+            // Small business tier ($10k-$100k)
             { key: "coffee_shop", name: "Coffee Shop", category: "business", price: 120000, hourly: 1400 },
+            { key: "laundromat", name: "Laundromat", category: "business", price: 75000, hourly: 900 },
+            { key: "car_wash", name: "Car Wash", category: "business", price: 85000, hourly: 1100 },
+            { key: "ice_cream_truck", name: "Ice Cream Truck", category: "business", price: 45000, hourly: 600 },
+            { key: "pet_grooming", name: "Pet Grooming Salon", category: "business", price: 55000, hourly: 750 },
+            
+            // Real estate tier ($50k-$500k)
+            { key: "rental_house", name: "Rental House", category: "passive_property", price: 50000, hourly: 500 },
+            { key: "duplex", name: "Duplex Property", category: "passive_property", price: 120000, hourly: 1200 },
+            { key: "apartment_building", name: "Small Apartment Building", category: "passive_property", price: 300000, hourly: 2800 },
+            { key: "office_space", name: "Commercial Office Space", category: "passive_property", price: 250000, hourly: 2200 },
+            { key: "warehouse", name: "Storage Warehouse", category: "passive_property", price: 180000, hourly: 1600 },
+            
+            // Luxury/Depreciation tier ($100k-$1M)
             { key: "sports_car", name: "Sports Car", category: "luxury", price: 250000, hourly: 0, depreciation: true },
+            { key: "yacht", name: "Luxury Yacht", category: "luxury", price: 800000, hourly: 0, depreciation: true },
+            { key: "private_jet", name: "Private Jet", category: "luxury", price: 2000000, hourly: 0, depreciation: true },
+            { key: "mansion", name: "Beverly Hills Mansion", category: "luxury", price: 5000000, hourly: 0, depreciation: true },
+            { key: "art_collection", name: "Fine Art Collection", category: "luxury", price: 1200000, hourly: 0, depreciation: false },
+            
+            // High-tier businesses ($500k-$10M)
+            { key: "restaurant_chain", name: "Restaurant Chain (5 locations)", category: "business", price: 1500000, hourly: 12000 },
+            { key: "hotel", name: "Boutique Hotel", category: "business", price: 3200000, hourly: 25000 },
+            { key: "gas_station", name: "Gas Station Franchise", category: "business", price: 800000, hourly: 7500 },
+            { key: "gym_chain", name: "Fitness Center Chain", category: "business", price: 1100000, hourly: 9500 },
+            { key: "auto_dealership", name: "Car Dealership", category: "business", price: 2800000, hourly: 22000 },
+            
+            // Mega properties ($1M-$50M)
             { key: "shopping_mall", name: "Shopping Mall", category: "high_passive", price: 5000000, hourly: 30000 },
+            { key: "skyscraper", name: "Downtown Skyscraper", category: "high_passive", price: 15000000, hourly: 85000 },
+            { key: "casino", name: "Las Vegas Casino", category: "high_passive", price: 25000000, hourly: 150000 },
+            { key: "airport", name: "Regional Airport", category: "high_passive", price: 45000000, hourly: 280000 },
+            { key: "oil_rig", name: "Offshore Oil Rig", category: "high_passive", price: 35000000, hourly: 220000 },
+            
+            // Tech/Modern tier ($100k-$5M)
+            { key: "app_startup", name: "Mobile App Startup", category: "tech", price: 500000, hourly: 4000 },
+            { key: "youtube_channel", name: "YouTube Channel", category: "tech", price: 50000, hourly: 800 },
+            { key: "saas_company", name: "SaaS Software Company", category: "tech", price: 2000000, hourly: 18000 },
+            { key: "crypto_mining", name: "Bitcoin Mining Farm", category: "tech", price: 1200000, hourly: 8500 },
+            { key: "nft_collection", name: "NFT Art Collection", category: "tech", price: 300000, hourly: 0, depreciation: true },
+            
+            // Unique/Fun items ($1k-$100k)
+            { key: "food_cart", name: "Hot Dog Cart", category: "novelty", price: 8000, hourly: 15 },
+            { key: "vending_machine", name: "Snack Vending Machine", category: "low_passive", price: 5000, hourly: 12 },
+            { key: "atm_machine", name: "ATM Machine", category: "low_passive", price: 25000, hourly: 180 },
+            { key: "solar_panels", name: "Solar Panel Array", category: "passive_property", price: 80000, hourly: 600 },
+            { key: "wind_turbine", name: "Wind Turbine", category: "passive_property", price: 150000, hourly: 1100 },
         ];
 
+        // Enhanced market events with more variety
         const MARKET_EVENTS = [
-            { id: "housing_boom", label: "Housing Boom", effect: (state) => ({ propertyMultiplier: 1.2 }), durationTicks: 48 },
-            { id: "btc_crash", label: "Bitcoin Crash", effect: (state) => ({ btcMultiplier: 0.6 }), durationTicks: 24 },
-            { id: "business_grant", label: "Small Business Grant", effect: (state) => ({ businessIncome: 1.15 }), durationTicks: 24 },
-            { id: "tax_hike", label: "Sales Tax Hike", effect: (state) => ({ sellFee: 1.1 }), durationTicks: 72 },
+            { id: "housing_boom", label: "Housing Market Boom", effect: (state) => ({ propertyMultiplier: 1.3 }), durationTicks: 48 },
+            { id: "housing_crash", label: "Housing Market Crash", effect: (state) => ({ propertyMultiplier: 0.7 }), durationTicks: 36 },
+            { id: "btc_moon", label: "Bitcoin Bull Run", effect: (state) => ({ btcMultiplier: 1.8 }), durationTicks: 24 },
+            { id: "btc_crash", label: "Crypto Winter", effect: (state) => ({ btcMultiplier: 0.4 }), durationTicks: 72 },
+            { id: "business_grant", label: "Small Business Stimulus", effect: (state) => ({ businessIncome: 1.25 }), durationTicks: 48 },
+            { id: "recession", label: "Economic Recession", effect: (state) => ({ businessIncome: 0.8, propertyMultiplier: 0.85 }), durationTicks: 96 },
+            { id: "tax_hike", label: "Capital Gains Tax Increase", effect: (state) => ({ sellFee: 1.2 }), durationTicks: 72 },
+            { id: "tech_bubble", label: "Tech Stock Bubble", effect: (state) => ({ techMultiplier: 1.5 }), durationTicks: 36 },
+            { id: "oil_spike", label: "Energy Crisis", effect: (state) => ({ businessIncome: 0.9, oilMultiplier: 2.0 }), durationTicks: 48 },
+            { id: "tourism_boom", label: "Tourism Surge", effect: (state) => ({ hotelMultiplier: 1.4 }), durationTicks: 60 },
+            { id: "supply_chain", label: "Supply Chain Issues", effect: (state) => ({ businessIncome: 0.85 }), durationTicks: 48 },
+            { id: "luxury_tax", label: "Luxury Goods Tax", effect: (state) => ({ luxuryPenalty: 1.3 }), durationTicks: 72 },
         ];
 
         function inferItemFromText(text) {
@@ -552,7 +611,7 @@
                                             </button>
                                         </div>
                                         <div className="mt-3 text-slate-300 text-sm">
-                                            Tip: The machine understands keywords like <em>bitcoin</em>, <em>rental</em>, <em>lemonade</em>, <em>car</em>.
+                                            <strong>Try asking for:</strong> <em>restaurant, hotel, skyscraper, yacht, oil rig, solar panels, youtube channel, crypto mining, nft, casino, airport</em>
                                             <br />
                                             <span className="text-xs opacity-75">
                                                 Cooldown increases with net worth & income. Early game = no wait!
